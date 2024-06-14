@@ -1,3 +1,5 @@
+use std::iter::Filter;
+use std::slice::Iter;
 // TODO: Implement the `in_progress` method. It must return an iterator over the tickets in
 //  `TicketStore` with status set to `Status::InProgress`.
 use ticket_fields::{TicketDescription, TicketTitle};
@@ -30,6 +32,12 @@ impl TicketStore {
 
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
+    }
+
+    pub fn in_progress(&self) -> impl Iterator<Item = &Ticket> {
+        self.tickets
+            .iter()
+            .filter(|it| it.status == Status::InProgress)
     }
 }
 

@@ -21,3 +21,20 @@ mod tests {
         assert!(!(-1).is_even());
     }
 }
+
+impl IsEven for u32 {
+    fn is_even(self) -> bool {
+        self % 2 == 0
+    }
+}
+
+impl IsEven for i32 {
+    fn is_even(self) -> bool {
+        self % 2 == 0
+    }
+}
+
+
+trait IsEven {
+    fn is_even(self) -> bool;
+}

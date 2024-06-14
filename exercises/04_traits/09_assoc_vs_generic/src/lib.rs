@@ -15,7 +15,7 @@
 
 #[cfg(test)]
 mod tests {
-    use super::Power;
+    use super::{Power, PowerAsso};
 
     #[test]
     fn test_power_u16() {
@@ -33,5 +33,75 @@ mod tests {
     fn test_power_ref_u32() {
         let x: u32 = 2_u32.power(&3u32);
         assert_eq!(x, 8);
+    }
+
+    #[test]
+    fn test_power_ref_amper_u32() {
+        let y: &u32 = &2_u32;
+
+        let x: u32 = y.power_asso(&3u32);
+        assert_eq!(x, 8);
+    }
+}
+
+trait Power<Input> {
+    //type Input;
+
+
+    fn power(&self, input: Input) -> Self;
+}
+
+impl Power<u16> for u32 {
+    fn power(&self, input: u16) -> Self {
+        self.pow(input.into())
+    }
+}
+
+impl Power<u32> for u32 {
+    fn power(&self, input: u32) -> Self {
+        self.pow(input.into())
+    }
+}
+
+impl Power<&u32> for u32 {
+    fn power(&self, input: &u32) -> Self {
+        self.pow(*input)
+    }
+}
+
+// with associated type this would be better as it'd work on &u32 as self
+
+trait PowerAsso<Input> {
+    type Output;
+
+
+    fn power_asso(&self, input: Input) -> Self::Output;
+}
+
+impl PowerAsso<u16> for u32 {
+    type Output = u32;
+    fn power_asso(&self, input: u16) -> Self::Output {
+        self.pow(input.into())
+    }
+}
+
+impl PowerAsso<u32> for u32 {
+    type Output = u32;
+    fn power_asso(&self, input: u32) -> Self::Output {
+        self.pow(input.into())
+    }
+}
+
+impl PowerAsso<&u32> for u32 {
+    type Output = u32;
+    fn power_asso(&self, input: &u32) -> Self::Output {
+        self.pow(*input)
+    }
+}
+
+impl PowerAsso<&u32> for &u32 {
+    type Output = u32;
+    fn power_asso(&self, input: &u32) -> Self::Output {
+        self.pow(*input)
     }
 }

@@ -1,6 +1,18 @@
-// TODO: Define a function named `lowercase` that converts all characters in a string to lowercase,
+// TODO: Define a function named `lowercase` that converts all characters in a string to
+// lowercase,
 //  modifying the input in place.
 //  Does it need to take a `&mut String`? Does a `&mut [str]` work? Why or why not?
+
+pub fn lowercase(input: &mut str) {
+    //let length = input.len();
+
+
+    let clone = input.to_lowercase();
+
+    unsafe { input.as_bytes_mut().copy_from_slice(clone.as_ref()) }
+
+
+}
 
 #[cfg(test)]
 mod tests {
